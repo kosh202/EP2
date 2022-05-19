@@ -124,17 +124,23 @@ No *balancear(No *raiz) {
     x -> valor a ser inserido
     Retorno: endereço do novo nó ou nova raiz após o balanceamento
 */
-No *inserir(No *raiz, int x, int *repetido) {
+No *inserir(No *raiz, int x) {
   if (raiz == NULL) // árvore vazia
     return novoNo(x);
   else { // inserção será à esquerda ou à direita
     if (x < raiz->valor)
-      raiz->esquerdo = inserir(raiz->esquerdo, x, repetido);
+      raiz->esquerdo = inserir(raiz->esquerdo, x);
     else if (x > raiz->valor)
-      raiz->direito = inserir(raiz->direito, x, repetido);
+      raiz->direito = inserir(raiz->direito, x);
     else
-      printf("\nInsercao nao realizada!\nO elemento %d a existe!\n", x);
-      repetido = 1;
+      {
+          printf("\nInsercao nao realizada!\nO elemento %d a existe!\n", x);
+          x = rand()%50;
+          if (x < raiz->valor)
+            raiz->esquerdo = inserir(raiz->esquerdo, x);
+          else if (x > raiz->valor)
+            raiz->direito = inserir(raiz->direito, x);
+      }
   }
 
   // Recalcula a altura de todos os nós entre a raiz e o novo nó inserido
@@ -164,26 +170,31 @@ void imprimir(No *raiz, int nivel) {
 No *novaAmostra(int elementos, int *array) // quantidade de elemntos
 {
     No* raiz = novoNo(array[0]);
-    int repetido = 0;
   for (int i = 1; i < elementos; i++) {
-    raiz = inserir(raiz, array[i], repetido);
-    if(repetido == 1)
-    {
-        repetido = 0;
-        do
-        {
-            raiz = inserir(raiz, rand()%50, repetido);
-        }while(repetido != 1);
-        
-    }
+    raiz = inserir(raiz, array[i]);
   }
   return raiz;
 }
 
 void criarNumros(int *array, int qtdElemento) {
+    srand(time(NULL));
   for (int i = 0; i < qtdElemento; i++) {
-    array[i] = rand() % 50;
+    array[i] = rand()%50;
   }
+}
+
+void verificacao(int *array, int qtdElemento)
+{
+    int cont;
+    
+    for(int i = 0; i < qtdElemento; i++)
+    {
+        if(array[i] == array[i+1])
+        {
+            array[i] = rand()%50;
+            verificacao(array, qtdElemento);
+        }
+    }
 }
 
 //BST
@@ -195,7 +206,7 @@ int main() {
   No *raiz = NULL;
 
   do {
-    printf("\n\n\t0 - Sair\n\t1 - Criar arvore\n");
+    printf("\n0 - Sair\n1 - Criar arvore\n");
     scanf("%d", &opcao);
 
     switch (opcao) {
@@ -211,6 +222,7 @@ int main() {
       int array[elementos];
 
       criarNumros(array, elementos);
+      verificacao(array, elementos);
       raiz = novaAmostra(elementos, array);
       printf("AVL");
       imprimir(raiz, 1);

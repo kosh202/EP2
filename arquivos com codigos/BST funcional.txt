@@ -1,0 +1,122 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include<time.h>
+#include <string.h>
+
+
+typedef struct no {
+  int valor;
+  struct no *esquerdo, *direito;
+  short altura;
+} No;
+
+/*
+    Função completa para inserir um novo nó
+*/
+No *novoNo(int x) {
+  No *novo = malloc(sizeof(No));
+
+  if (novo) {
+    novo->valor = x;
+    novo->esquerdo = NULL;
+    novo->direito = NULL;
+    novo->altura = 0;
+  } else
+    printf("\nERRO ao alocar nó em novoNo!\n");
+  return novo;
+}
+
+/*
+    Procedimento iterativo (sem recursão) para inserir em uma árvore binária
+*/
+void inserirBST(No *raiz, int num){
+    
+    
+        if(raiz->valor < num)
+        {
+            if(raiz->direito == NULL)
+            {
+                raiz->direito = novoNo(num);
+                return;
+            }
+            inserirBST(raiz->direito, num);
+        }
+        else if(raiz->valor > num)
+        {
+            if(raiz->esquerdo == NULL)
+            {
+                raiz->esquerdo = novoNo(num);
+                return;
+            }
+            inserirBST(raiz->esquerdo, num);
+        }
+    
+}
+
+void bstIdentPrint(No *raiz, int espacos)
+{//vai ir para o ultimo da direita e imprime depois volta e imprime e vai ate o ultimo da esquerda e imprime
+  if(raiz != NULL)
+    {
+      bstIdentPrint(raiz->direito, espacos+1);
+      for(int i = 0; i<espacos; i++)
+        {
+          printf("\t");//tabs
+        }
+      printf("%d\n",raiz->valor);
+      bstIdentPrint(raiz->esquerdo, espacos+1);
+      
+    }
+}
+//modificarno
+void criarNumros(int *array, int qtdElemento) {
+  for (int i = 0; i < qtdElemento; i++) {
+    array[i] = rand() % 50;
+  }
+}
+
+No *BSTAmostra(int elementos, int *array) // quantidade de elemntos
+{
+    No* raiz = novoNo(array[0]);
+    int repetido = 0;
+  for (int i = 1; i < elementos; i++) {
+    inserirBST(raiz, array[i]);
+    if(repetido == 1)
+    {
+        repetido = 0;
+        do
+        {
+            inserirBST(raiz, rand()%50);
+        }while(repetido != 1);
+        
+    }
+  }
+  return raiz;
+}
+
+//ate aqui
+int main(void) {
+/*
+No* raiz = novoNo(25);
+inserirBST(raiz,22);
+inserirBST(raiz,33);
+inserirBST(raiz,35);
+bstIdentPrint(raiz, 0);
+*/
+int resp;
+do{
+    int elementos;
+    printf("0- sair\n 1- novo\n");
+    scanf("%d", &resp);
+printf("Digite a quantidade de elementos:");
+scanf("%d", &elementos);
+
+int aray[elementos];
+criarNumros(aray, elementos);
+No* raiz = BSTAmostra(elementos, aray);
+
+bstIdentPrint(raiz,0);
+}while(resp != 0);
+
+  return 0;
+}
+

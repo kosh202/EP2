@@ -178,7 +178,6 @@ No *novaAmostra(int elementos, int *array) // quantidade de elemntos
 }
 
 void criarNumros(int *array, int qtdElemento) {
-    srand(time(NULL));
   for (int i = 0; i < qtdElemento; i++) {
     array[i] = rand()%50;
   }
@@ -276,7 +275,7 @@ int altura(No *raiz){
 }
 
 int main() {
-
+srand(time(NULL));
   int opcao, valor;
   No *raiz = NULL;
 
@@ -290,26 +289,35 @@ int main() {
       break;
     case 1: {
         raiz = NULL;
+        int elementos;
+        int qtdAmostras;
       printf("quantidade de elementos: ");
-      int elementos;
-
       scanf("%d", &elementos);
+      
+      printf("Quantidade de Amostras: ");
+      scanf("%d", &qtdAmostras);
+      
       int array[elementos];
-
-      criarNumros(array, elementos);
-      verificacao(array, elementos);
-      raiz = novaAmostra(elementos, array);
-      printf("\nAVL");
-      imprimir(raiz, 1);
       
-      printf("\nAltura da AVL: %d", altura(raiz)+1);
+      for(int i = 0; i < qtdAmostras; i++)
+      {
+          criarNumros(array, elementos);
+          verificacao(array, elementos);
+          raiz = novaAmostra(elementos, array);
+          printf("\nAVL");
+          imprimir(raiz, 1);
+          
+          printf("\nAltura da AVL: %d", altura(raiz)+1);
+          
+          printf("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+          printf("\nBST\n");
+          raiz = BSTAmostra(elementos, array);
+          bstIdentPrint(raiz,1);
+          
+          printf("\nAltura da BST: %d", altura(raiz)+1);
+          printf("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+      }
       
-      printf("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
-      printf("\nBST\n");
-      raiz = BSTAmostra(elementos, array);
-      bstIdentPrint(raiz,1);
-      
-      printf("\nAltura da BST: %d", altura(raiz)+1);
       
       break;
     }

@@ -47,8 +47,6 @@ short fatorDeBalanceamento(No *no) {
     return 0;
 }
 
-// --------- ROTAÇÕES ---------------------------
-
 // função para a rotação à esquerda
 No *rotacaoEsquerda(No *r) {
   No *y, *f;

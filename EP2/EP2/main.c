@@ -8,11 +8,6 @@ typedef struct no {
   short altura;
 } No;
 
-/*
-    Função que cria um novo nó
-    x -> valor a ser inserido no nó
-    Retorna: o endereço do nó criado
-*/
 No *novoNo(int x) {
   No *novo = malloc(sizeof(No));
 
@@ -26,6 +21,7 @@ No *novoNo(int x) {
   return novo;
 }
 
+#pragma region AVL
 /*
     Retorna o maior dentre dois valores
     a, b -> altura de dois nós da árvore
@@ -48,9 +44,6 @@ short fatorDeBalanceamento(No *no) {
     return 0;
 }
 
-// --------- ROTAÇÕES ---------------------------
-
-// função para a rotação à esquerda
 No *rotacaoEsquerda(No *r) {
   No *y, *f;
 
@@ -92,11 +85,6 @@ No *rotacaoDireitaEsquerda(No *r) {
   return rotacaoEsquerda(r);
 }
 
-/*
-    Função para realizar o balanceamento da árvore após uma inserção ou remoção
-    Recebe o nó que está desbalanceado e retorna a nova raiz após o
-   balanceamento
-*/
 No *balancear(No *raiz) {
   short fb = fatorDeBalanceamento(raiz);
 
@@ -119,12 +107,6 @@ No *balancear(No *raiz) {
   return raiz;
 }
 
-/*
-    Insere um novo nó na árvore
-    raiz -> raiz da árvore
-    x -> valor a ser inserido
-    Retorno: endereço do novo nó ou nova raiz após o balanceamento
-*/
 No *inserir(No *raiz, int x) {
   if (raiz == NULL) // árvore vazia
     return novoNo(x);
@@ -176,13 +158,16 @@ No *novaAmostra(int elementos, int *array) // quantidade de elemntos
   }
   return raiz;
 }
+#pragma endregion
 
+//cria numeros para um array
 void criarNumros(int *array, int qtdElemento) {
   for (int i = 0; i < qtdElemento; i++) {
     array[i] = rand()%50;
   }
 }
 
+//verifica se os numeros de um array não possui repetidos
 void verificacao(int *array, int qtdElemento)
 {
     int cont;
@@ -198,7 +183,8 @@ void verificacao(int *array, int qtdElemento)
 }
 
 //BST
-
+#pragma region BST
+//insere um no na arvore BST
 void inserirBST(No *raiz, int num){
     
     
@@ -223,6 +209,7 @@ void inserirBST(No *raiz, int num){
     
 }
 
+//printa a arvore para facilitar a visualizacao
 void bstIdentPrint(No *raiz, int espacos)
 {//vai ir para o ultimo da direita e imprime depois volta e imprime e vai ate o ultimo da esquerda e imprime
   if(raiz != NULL)
@@ -238,6 +225,7 @@ void bstIdentPrint(No *raiz, int espacos)
     }
 }
 
+//cria a amostra "cria uma arvore BST"
 No *BSTAmostra(int elementos, int *array) // quantidade de elemntos
 {
     No* raiz = novoNo(array[0]);
@@ -256,10 +244,9 @@ No *BSTAmostra(int elementos, int *array) // quantidade de elemntos
   }
   return raiz;
 }
+#pragma endregion
 
-/*
-     Função para calcular a altura de uma árvore binária
-*/
+//calcula a altura de qualquer uma das arvores
 int altura(No *raiz){
     if(raiz == NULL){
         return -1;
@@ -273,7 +260,7 @@ int altura(No *raiz){
             return direito + 1;
     }
 }
-
+//calcula a media da altura de bst ou avl
 float mediaAltura(float *array, float qtdAmostras)
 {
     float media = 0;

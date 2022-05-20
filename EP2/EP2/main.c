@@ -274,6 +274,16 @@ int altura(No *raiz){
     }
 }
 
+float mediaAltura(float *array, float qtdAmostras)
+{
+    float media = 0;
+    for(int i = 0; i < qtdAmostras; i++)
+    {
+        media += array[i];
+    }
+    return media/qtdAmostras;
+}
+
 int main() {
 srand(time(NULL));
   int opcao, valor;
@@ -296,6 +306,9 @@ srand(time(NULL));
       
       printf("Quantidade de Amostras: ");
       scanf("%d", &qtdAmostras);
+
+      float arrayAVL[qtdAmostras];
+      float arrayBST[qtdAmostras];
       
       int array[elementos];
       
@@ -306,18 +319,31 @@ srand(time(NULL));
           raiz = novaAmostra(elementos, array);
           printf("\nAVL");
           imprimir(raiz, 1);
-          
-          printf("\nAltura da AVL: %d", altura(raiz)+1);
+        arrayAVL[i] = altura(raiz)+1;
+        
+          printf("\nAltura da AVL: %.2f", arrayAVL[i]);
+        
           
           printf("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
           printf("\nBST\n");
           raiz = BSTAmostra(elementos, array);
           bstIdentPrint(raiz,1);
-          
-          printf("\nAltura da BST: %d", altura(raiz)+1);
+
+        arrayBST[i] = altura(raiz)+1;
+        
+          printf("\nAltura da BST: %.2f", arrayBST[i]);
           printf("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
       }
+
+      float amostras = qtdAmostras;
+      float mediaAVL = mediaAltura(arrayAVL, amostras);
+      float mediaBST = mediaAltura(arrayBST, amostras);
+      float mediaGeral = (mediaAVL+mediaBST)/2;
       
+      printf("\nMedia da altura AVL: %.2f", mediaAVL);
+      printf("\nMedia da altura BST: %.2f", mediaBST);
+      printf("\nMedia da geral: %.2f", mediaGeral);
+
       
       break;
     }

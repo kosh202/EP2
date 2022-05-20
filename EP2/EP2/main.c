@@ -199,6 +199,63 @@ void verificacao(int *array, int qtdElemento)
 
 //BST
 
+void inserirBST(No *raiz, int num){
+    
+    
+        if(raiz->valor < num)
+        {
+            if(raiz->direito == NULL)
+            {
+                raiz->direito = novoNo(num);
+                return;
+            }
+            inserirBST(raiz->direito, num);
+        }
+        else if(raiz->valor > num)
+        {
+            if(raiz->esquerdo == NULL)
+            {
+                raiz->esquerdo = novoNo(num);
+                return;
+            }
+            inserirBST(raiz->esquerdo, num);
+        }
+    
+}
+
+void bstIdentPrint(No *raiz, int espacos)
+{//vai ir para o ultimo da direita e imprime depois volta e imprime e vai ate o ultimo da esquerda e imprime
+  if(raiz != NULL)
+    {
+      bstIdentPrint(raiz->direito, espacos+1);
+      for(int i = 0; i<espacos; i++)
+        {
+          printf("\t");//tabs
+        }
+      printf("%d\n",raiz->valor);
+      bstIdentPrint(raiz->esquerdo, espacos+1);
+      
+    }
+}
+
+No *BSTAmostra(int elementos, int *array) // quantidade de elemntos
+{
+    No* raiz = novoNo(array[0]);
+    int repetido = 0;
+  for (int i = 1; i < elementos; i++) {
+    inserirBST(raiz, array[i]);
+    if(repetido == 1)
+    {
+        repetido = 0;
+        do
+        {
+            inserirBST(raiz, rand()%50);
+        }while(repetido != 1);
+        
+    }
+  }
+  return raiz;
+}
 
 int main() {
 
@@ -224,8 +281,13 @@ int main() {
       criarNumros(array, elementos);
       verificacao(array, elementos);
       raiz = novaAmostra(elementos, array);
-      printf("AVL");
+      printf("\nAVL");
       imprimir(raiz, 1);
+      
+      printf("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+      printf("\nBST\n");
+      raiz = BSTAmostra(elementos, array);
+      bstIdentPrint(raiz,1);
       break;
     }
     default:

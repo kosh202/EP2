@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 typedef struct no {
   int valor;
@@ -257,6 +258,23 @@ No *BSTAmostra(int elementos, int *array) // quantidade de elemntos
   return raiz;
 }
 
+/*
+     Função para calcular a altura de uma árvore binária
+*/
+int altura(No *raiz){
+    if(raiz == NULL){
+        return -1;
+    }
+    else{
+        int esquerdo = altura(raiz->esquerdo);
+        int direito = altura(raiz->direito);
+        if(esquerdo > direito)
+            return esquerdo + 1;
+        else
+            return direito + 1;
+    }
+}
+
 int main() {
 
   int opcao, valor;
@@ -284,10 +302,15 @@ int main() {
       printf("\nAVL");
       imprimir(raiz, 1);
       
+      printf("\nAltura da AVL: %d", altura(raiz)+1);
+      
       printf("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
       printf("\nBST\n");
       raiz = BSTAmostra(elementos, array);
       bstIdentPrint(raiz,1);
+      
+      printf("\nAltura da BST: %d", altura(raiz)+1);
+      
       break;
     }
     default:
